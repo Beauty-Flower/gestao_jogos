@@ -2,8 +2,9 @@ package br.senai.sp.jandira.model;
 
 public enum Console {
 	
+	PS("Play Station"),
 	COLORTVGAME("Color TV Game"),
-	NINTENDO64("Nintendo 64"),
+	NINTENDO("Nintendo 64"),
 	NINTENDOSWITCH("Nintendo Switch");
 	
 	private String descricao;
