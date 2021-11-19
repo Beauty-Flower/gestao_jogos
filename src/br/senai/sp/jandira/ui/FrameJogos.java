@@ -6,7 +6,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import br.senai.sp.jandira.model.Console;
+import br.senai.sp.jandira.model.Fabricante;
 import br.senai.sp.jandira.model.Jogo;
+import br.senai.sp.jandira.repository.FabricanteRepository;
 import br.senai.sp.jandira.repository.JogoRepository;
 
 import javax.swing.JLabel;
@@ -25,6 +27,8 @@ import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import java.awt.Font;
+import java.awt.Color;
 
 public class FrameJogos extends JFrame {
 
@@ -57,8 +61,18 @@ public class FrameJogos extends JFrame {
 		lblFabricante.setBounds(21, 96, 102, 14);
 		contentPane.add(lblFabricante);
 
-		JComboBox comboBoxFabricante = new JComboBox();
+		JComboBox<String> comboBoxFabricante = new JComboBox<String>();
 		comboBoxFabricante.setBounds(132, 96, 152, 22);
+		
+		DefaultComboBoxModel<String> modelFabricante = new DefaultComboBoxModel<String>();
+		
+		FabricanteRepository fabricantes = new FabricanteRepository();
+		
+		for (Fabricante fabricante : fabricantes.getFabricantes()) {
+			modelFabricante.addElement(fabricante.getNome());
+		}
+		
+		comboBoxFabricante.setModel(modelFabricante);
 		contentPane.add(comboBoxFabricante);
 
 		JCheckBox chckbxZerado = new JCheckBox("Zerado");
@@ -97,14 +111,18 @@ public class FrameJogos extends JFrame {
 		txtObservações.setColumns(10);
 
 		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.setBackground(new Color(230, 230, 250));
+		btnSalvar.setForeground(new Color(0, 0, 255));
 		btnSalvar.setBounds(21, 292, 138, 53);
 		contentPane.add(btnSalvar);
 
 		JButton btnVoltar = new JButton("<");
+		btnVoltar.setForeground(new Color(0, 0, 255));
 		btnVoltar.setBounds(350, 307, 89, 23);
 		contentPane.add(btnVoltar);
 
 		JButton btnAvancar = new JButton(">");
+		btnAvancar.setForeground(new Color(0, 0, 255));
 		btnAvancar.setBounds(458, 307, 89, 23);
 		contentPane.add(btnAvancar);
 
@@ -122,7 +140,9 @@ public class FrameJogos extends JFrame {
 		scrollPaneJogo.setViewportView(listJogos);
 
 		JLabel lblTitulo = new JLabel("Cole\u00E7\u00E3o de jogos");
-		lblTitulo.setBounds(230, 11, 91, 29);
+		lblTitulo.setForeground(Color.BLUE);
+		lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		lblTitulo.setBounds(230, 11, 310, 29);
 		contentPane.add(lblTitulo);
 
 		JogoRepository colecao = new JogoRepository(15);
@@ -133,7 +153,9 @@ public class FrameJogos extends JFrame {
 
 				Jogo jogo = new Jogo();
 				jogo.setTitulo(txtTituloJogo.getText());
+				jogo.setFabricante(fabricantes.getFabricantes(comboBoxFabricante.getSelectedIndex()));
 				jogo.setValor(txtValorEstimado.getText());
+				jogo.setZerado(chckbxZerado.isSelected());
 				jogo.setObservacoes(txtObservações.getText());
 
 				// Definir console
@@ -160,11 +182,18 @@ public class FrameJogos extends JFrame {
 
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
+				
+				int i = listJogos.getSelectedIndex();
+				
+				Jogo jogo = colecao.listarJogo(i);
+				
 				Jogo jogoSelecionado = colecao.listarJogo(listJogos.getSelectedIndex());
 				txtTituloJogo.setText(jogoSelecionado.getTitulo());
 				txtValorEstimado.setText(jogoSelecionado.getValor());
 				txtObservações.setText(jogoSelecionado.getObservacoes());
+				comboBoxFabricante.setSelectedIndex(fabricantes.getIndex(jogo.getFabricante()));
 				comboBoxConsole.setSelectedIndex(jogoSelecionado.getConsole().ordinal());
+				chckbxZerado.setSelected(jogoSelecionado.getZerado());
 			}
 		});
 		
@@ -172,7 +201,7 @@ public class FrameJogos extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (listJogos.isSelectionEmpty()) {
-					JOptionPane.showMessageDialog(null, "Quer avançar sem nada selecionado?!", "Conta outra, né?!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Quer avançar sem nada selecionado??", "Conta outra, né?!", JOptionPane.WARNING_MESSAGE);
 				} else {
 					listJogos.setSelectedIndex(listJogos.getSelectedIndex()+1);
 				}
@@ -183,7 +212,7 @@ public class FrameJogos extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if (listJogos.isSelectionEmpty()) {
-					JOptionPane.showMessageDialog(null, "Quer voltar sem nada selecionado?!", "Conta outra, né?!", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Quer voltar sem nada selecionado??", "Conta outra, né?!", JOptionPane.WARNING_MESSAGE);
 				} else {
 					listJogos.setSelectedIndex(listJogos.getSelectedIndex()-1);
 				}
