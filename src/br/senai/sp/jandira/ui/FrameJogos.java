@@ -183,15 +183,11 @@ public class FrameJogos extends JFrame {
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				
-				int i = listJogos.getSelectedIndex();
-				
-				Jogo jogo = colecao.listarJogo(i);
-				
 				Jogo jogoSelecionado = colecao.listarJogo(listJogos.getSelectedIndex());
 				txtTituloJogo.setText(jogoSelecionado.getTitulo());
 				txtValorEstimado.setText(jogoSelecionado.getValor());
 				txtObservações.setText(jogoSelecionado.getObservacoes());
-				comboBoxFabricante.setSelectedIndex(fabricantes.getIndex(jogo.getFabricante()));
+				comboBoxFabricante.setSelectedIndex(fabricantes.getIndex(jogoSelecionado.getFabricante()));
 				comboBoxConsole.setSelectedIndex(jogoSelecionado.getConsole().ordinal());
 				chckbxZerado.setSelected(jogoSelecionado.getZerado());
 			}
