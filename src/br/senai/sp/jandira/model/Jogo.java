@@ -5,8 +5,9 @@ public class Jogo {
 	private String titulo;
 	private Fabricante fabricante;
 	private boolean zerado;
-	private double valor;
+	private String valor;
 	private String observacoes;
+	private Console console;
 
 	public String getTitulo() {
 		return titulo;
@@ -32,11 +33,11 @@ public class Jogo {
 		this.zerado = zerado;
 	}
 
-	public double getValor() {
+	public String getValor() {
 		return valor;
 	}
 
-	public void setValor(double valor) {
+	public void setValor(String valor) {
 		this.valor = valor;
 	}
 
@@ -46,6 +47,14 @@ public class Jogo {
 
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
+	}
+	
+	public void setConsole(Console console) {
+		this.console = console;
+	}
+	
+	public Console getConsole() {
+		return console;
 	}
 
 }
