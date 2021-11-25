@@ -6,6 +6,7 @@ public class App {
 
 	public static void main(String[] args) {
 		
+		//Criando o frame e definindo-o visível
 		FrameJogos frame = new FrameJogos();
 		frame.setVisible(true);  
 		

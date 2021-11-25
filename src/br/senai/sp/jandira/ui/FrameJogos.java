@@ -174,7 +174,11 @@ public class FrameJogos extends JFrame {
 					JOptionPane.showMessageDialog(null, "A coleção já está cheia!!", "Coleção cheia!",
 							JOptionPane.WARNING_MESSAGE);
 				}
-
+				
+				//Limpando os campos
+				txtTituloJogo.setText("");
+				txtValorEstimado.setText("");
+				txtObservações.setText("");
 			}
 		});
 
@@ -193,6 +197,7 @@ public class FrameJogos extends JFrame {
 			}
 		});
 		
+		//Configurando botões avançar e voltar
 		btnAvancar.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
